@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Practice.Classes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,26 @@ namespace Practice
         public Form1()
         {
             InitializeComponent();
+            this.Paint += DrawImage;
+        }
+
+        private void DrawImage(object sender,PaintEventArgs e)
+        {
+            Classes.Point a = new Classes.Point(5,5);
+            Classes.Point b = new Classes.Point(100, 100);
+            Line line = new Line(a, b);
+            VisualLine drawLine = new VisualLine(line);
+            drawLine.Draw(e.Graphics);
+
+            Classes.Point c = new Classes.Point(200, 200);
+            Classes.Point d = new Classes.Point(300, 300);
+            Classes.Point g = new Classes.Point(350, 250);
+            Classes.Point f = new Classes.Point(500, 150);
+            Bezier bezier = new Bezier(c, d, g, f);
+            VisualBezier drawBezier = new VisualBezier(bezier);
+            drawBezier.Draw(e.Graphics);
+
+
         }
     }
 }

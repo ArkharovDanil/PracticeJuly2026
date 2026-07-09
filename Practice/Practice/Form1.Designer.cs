@@ -1,4 +1,8 @@
-﻿namespace Practice
+﻿using Practice.Classes;
+using System.Drawing;
+
+namespace Practice
+
 {
     partial class Form1
     {
@@ -19,7 +23,6 @@
             }
             base.Dispose(disposing);
         }
-
         #region Windows Form Designer generated code
 
         /// <summary>

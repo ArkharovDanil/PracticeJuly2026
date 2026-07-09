@@ -1,0 +1,10 @@
+C:\Users\TitanPC\Source\Repos\PracticeJuly2026\Practice\Practice\obj\Debug\Practice.csproj.AssemblyReference.cache
+C:\Users\TitanPC\Source\Repos\PracticeJuly2026\Practice\Practice\obj\Debug\Practice.Properties.Resources.resources
+C:\Users\TitanPC\Source\Repos\PracticeJuly2026\Practice\Practice\obj\Debug\Practice.csproj.GenerateResource.cache
+C:\Users\TitanPC\Source\Repos\PracticeJuly2026\Practice\Practice\obj\Debug\Practice.csproj.CoreCompileInputs.cache
+C:\Users\TitanPC\Source\Repos\PracticeJuly2026\Practice\Practice\bin\Debug\Practice.exe.config
+C:\Users\TitanPC\Source\Repos\PracticeJuly2026\Practice\Practice\bin\Debug\Practice.exe
+C:\Users\TitanPC\Source\Repos\PracticeJuly2026\Practice\Practice\bin\Debug\Practice.pdb
+C:\Users\TitanPC\Source\Repos\PracticeJuly2026\Practice\Practice\obj\Debug\Practice.exe
+C:\Users\TitanPC\Source\Repos\PracticeJuly2026\Practice\Practice\obj\Debug\Practice.pdb
+C:\Users\TitanPC\Source\Repos\PracticeJuly2026\Practice\Practice\obj\Debug\Practice.exe.config
