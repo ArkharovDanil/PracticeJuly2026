@@ -25,16 +25,6 @@ namespace Practice.Classes
             p = point;
         }
 
-        public IPoint GetC()
-        {
-            return _c;
-        }
-
-        public IPoint GetD()
-        {
-            return _d;
-        }
-
         private double CountX(double t)
         {
             return Math.Pow(1 - t, 3) * GetA().X + 3 * t * Math.Pow(1 - t, 2) * _c.X + 3 * Math.Pow(t, 2) * (1 - t) * _d.X + Math.Pow(t, 3) * GetB().X;

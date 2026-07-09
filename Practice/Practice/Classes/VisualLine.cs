@@ -23,10 +23,19 @@ namespace Practice.Classes
         }
         public override void Draw(Graphics g)
         {
-            IPoint start = _line.GetA();
-            IPoint end = _line.GetB();
             Pen pen = new Pen(Color.Black, 3);
-            g.DrawLine(pen, (float)start.X, (float)start.Y, (float)end.X, (float)end.Y);
+
+            int segments = 20;
+            _line.GetPoint(0, out IPoint prevPoint);
+            for (int i = 1; i <= segments; i++)
+            {
+                double t = (double)i / segments;
+                _line.GetPoint(t, out IPoint currentPoint);
+
+                g.DrawLine(pen, (float)prevPoint.X, (float)prevPoint.Y, (float)currentPoint.X, (float)currentPoint.Y);
+
+                prevPoint = currentPoint;
+            }
         }
     }
 }

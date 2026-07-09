@@ -24,14 +24,19 @@ namespace Practice.Classes
 
         public override void Draw(Graphics g)
         {
-            IPoint p1 = _bez.GetA();
-            IPoint p2 = _bez.GetB();
-            IPoint p3 = _bez.GetC();
-            IPoint p4 = _bez.GetD();
             Pen pen = new Pen(Color.Red, 3);
-            g.DrawLine(pen, (float)p1.X, (float)p1.Y, (float)p2.X, (float)p2.Y);
-            g.DrawLine(pen, (float)p2.X, (float)p2.Y, (float)p3.X, (float)p3.Y);
-            g.DrawLine(pen, (float)p3.X, (float)p3.Y, (float)p4.X, (float)p4.Y);
+
+            int segments = 20;
+            _bez.GetPoint(0, out IPoint prevPoint);
+            for (int i = 1; i <= segments; i++)
+            {
+                double t = (double)i / segments;
+                _bez.GetPoint(t, out IPoint currentPoint);
+
+                g.DrawLine(pen, (float)prevPoint.X, (float)prevPoint.Y, (float)currentPoint.X, (float)currentPoint.Y);
+
+                prevPoint = currentPoint;
+            }
         }
     }
 }
