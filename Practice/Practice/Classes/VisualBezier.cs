@@ -22,15 +22,17 @@ namespace Practice.Classes
         }
         public override void Draw(Graphics g)
         {
-            IPoint p1 = _bezier.GetA();
-            IPoint p2 = _bezier.GetB();
-            IPoint p3 = _bezier.GetC();
-            IPoint p4 = _bezier.GetD();
-
+            int segments = 20;
             Pen pen = new Pen(Color.Red, 3);
-            g.DrawLine(pen, (float)p1.X, (float)p1.Y, (float)p2.X, (float)p2.Y);
-            g.DrawLine(pen, (float)p2.X, (float)p2.Y, (float)p3.X, (float)p3.Y);
-            g.DrawLine(pen, (float)p3.X, (float)p3.Y, (float)p4.X, (float)p4.Y);
+            _bezier.GetPoint(0, out IPoint prevPoint);
+            for (int i=1; i<= segments; i++)
+            {
+                double t = (double)i / segments;
+                _bezier.GetPoint(t, out IPoint currentPoint);
+                g.DrawLine(pen, (float)prevPoint.X, (float)prevPoint.Y, (float)currentPoint.X, (float)currentPoint.Y);
+
+                prevPoint = currentPoint;
+            }
         }
     }
 }

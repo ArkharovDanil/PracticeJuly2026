@@ -18,15 +18,6 @@ namespace Practice.Classes
             _d = d;
         }
 
-        public IPoint GetC()
-        {
-            return _c;
-        }
-        public IPoint GetD()
-        {
-            return _d;
-        }
-
         public override void GetPoint(double t, out IPoint p)
         {
             Point point = new Point();
