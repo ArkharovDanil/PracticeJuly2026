@@ -9,6 +9,9 @@ namespace Practice.Classes
 {
     public class Point : IPoint
     {
+
+        private double _x;
+        private double _y;
         public Point()
         {
     
@@ -21,8 +24,7 @@ namespace Practice.Classes
         public double X { get => _x; set => _x = value; }
         public double Y { get => _y; set => _y = value; }
 
-        private double _x;
-        private double _y;
+        
 
         internal void SetY(double v)
         {

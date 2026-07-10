@@ -16,20 +16,14 @@ namespace Practice.Classes
 
         }
 
-        public override void GetPoint(double t, out IPoint p)
-        {
-            Point point = new Point();
-            point.SetX(CountX(t));
-            point.SetY(CountY(t));
-            p = point;
-        }
+     
 
-        private double CountX(double t)
+        public override double CountX(double t)
         {
             return (1 - t) * GetA().X + t * GetB().X;
         }
 
-        private double CountY(double t)
+        public override double CountY(double t)
         {
             return (1 - t) * GetA().Y + t * GetB().Y;
         }
