@@ -26,7 +26,16 @@ namespace Practice.Classes
         {
             return _b;
         }
-        abstract public void GetPoint(double t, out IPoint p);
+         public void GetPoint(double t, out IPoint p)
+        {
+            Point point = new Point();
+            point.SetX(CountX(t));
+            point.SetY(CountY(t));
+            p = point;
+        }
+        public abstract double CountX(double t);
+        public abstract double CountY(double t);
+
 
     }
 }

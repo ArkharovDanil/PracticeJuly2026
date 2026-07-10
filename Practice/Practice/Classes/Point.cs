@@ -25,12 +25,12 @@ namespace Practice.Classes
         {
         }
 
-        internal void SetY(double v)
+        public void SetY(double v)
         {
             _y = v;
         }
 
-        internal void SetX(double v)
+        public void SetX(double v)
         {
            _x = v;
         }
