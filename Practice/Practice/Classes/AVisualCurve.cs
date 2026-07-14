@@ -13,5 +13,7 @@ namespace Practice.Classes
         abstract public void Draw(Graphics g);
 
         abstract public void GetPoint(double t, out IPoint p);
+
+        abstract public string ExportToSvg(int width, int height);
     }
 }

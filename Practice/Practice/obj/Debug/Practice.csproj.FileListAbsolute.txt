@@ -7,3 +7,4 @@ C:\Users\solod\source\repos\PracticeJuly2026\Practice\Practice\obj\Debug\Practic
 C:\Users\solod\source\repos\PracticeJuly2026\Practice\Practice\obj\Debug\Practice.csproj.CoreCompileInputs.cache
 C:\Users\solod\source\repos\PracticeJuly2026\Practice\Practice\obj\Debug\Practice.exe
 C:\Users\solod\source\repos\PracticeJuly2026\Practice\Practice\obj\Debug\Practice.pdb
+C:\Users\solod\source\repos\PracticeJuly2026\Practice\Practice\obj\Debug\Practice.Form1.resources
