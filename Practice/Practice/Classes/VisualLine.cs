@@ -13,32 +13,37 @@ namespace Practice.Classes
 {
     public class VisualLine : AVisualCurve
     {
-        IImplementor _dot;
         IPoint endpoint;
         IPoint preendpoint;
         private Line _line;
+        private int segments = 20;
+        Graphics _g;
 
+
+        public VisualLine(Line line2, Graphics g)
+        {
+            _line = line2;
+            _g = g;
+        }
         public VisualLine(Line line2)
         {
             _line = line2;
-            _dot = new GreenRealization();
         }
         public override void GetPoint(double t, out IPoint p)
         {
             _line.GetPoint(t, out p);
         }
-        public override void Draw(Graphics g)
+        public override void Draw(IImplementor _implementor)
         {
-            Pen pen = new Pen(Color.Green, 3);
-            int segments = 20;
+
             _line.GetPoint(0, out IPoint prevPoint);
-            _dot.DrawStartPoint(g, prevPoint);
+            _implementor.DrawStartPoint(_g, prevPoint);
             for (int i = 1; i <= segments; i++)
             {
                 double t = (double)i / segments;
                 _line.GetPoint(t, out IPoint currentPoint);
 
-                g.DrawLine(pen, (float)prevPoint.X,(float)prevPoint.Y,(float)currentPoint.X, (float)currentPoint.Y);
+                _implementor.DrawLine(_g, prevPoint,currentPoint);
 
                 prevPoint = currentPoint;
                 if (i == segments)
@@ -50,45 +55,41 @@ namespace Practice.Classes
                     preendpoint = currentPoint;
                 }
             }
-            _dot.DrawEndPoint(g, endpoint, preendpoint);
+            _implementor.DrawEndPoint(_g, endpoint, preendpoint);
         }
 
-        public override string ExportToSvg(int width, int height)
+        public override string ExportToSvg(IImplementor _implementor)
         {
             var sb = new System.Text.StringBuilder();
-            sb.AppendLine($"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{width}\" height=\"{height}\">");
 
             _line.GetPoint(0, out IPoint startPoint);
 
             IPoint prevPoint = startPoint;
-            int segments = 20;
 
 
-            sb.AppendLine(string.Format(System.Globalization.CultureInfo.InvariantCulture, "<circle cx=\"{0}\" cy=\"{1}\" r=\"5\" fill=\"green\"/>",
-                startPoint.X, startPoint.Y));
+            sb.AppendLine(_implementor.DrawStartPointSVG(startPoint));
 
-            sb.AppendLine("<defs>");
-            sb.AppendLine("<marker id=\"arrowhead\" markerWidth=\"5\" markerHeight=\"3.5\" refX=\"4.5\" refY=\"1.75\" orient=\"auto\">");
-            sb.AppendLine("<polygon points=\"0 0, 5 1.75, 0 3.5\" fill=\"green\" />");
-            sb.AppendLine("</marker>");
-            sb.AppendLine("</defs>");
 
             for (int i = 1; i <= segments; i++)
             {
                 double t = (double)i / segments;
                 _line.GetPoint(t, out IPoint currentPoint);
 
-                string markerAttr = (i == segments) ? " marker-end=\"url(#arrowhead)\"" : "";
-
-                sb.AppendLine(string.Format(System.Globalization.CultureInfo.InvariantCulture,
-                    "<line x1=\"{0}\" y1=\"{1}\" x2=\"{2}\" y2=\"{3}\" stroke=\"green\" stroke-width=\"3\"{4} />",
-                    prevPoint.X, prevPoint.Y, currentPoint.X, currentPoint.Y, markerAttr));
+                sb.AppendLine(_implementor.DrawLineSVG(prevPoint,currentPoint));
 
                 prevPoint = currentPoint;
+                if (i == segments)
+                {
+                    endpoint = currentPoint;
+                }
+                if (i == segments - 1)
+                {
+                    preendpoint = currentPoint;
+                }
 
             }
 
-            sb.AppendLine("</svg>");
+            sb.AppendLine(_implementor.DrawEndPointSVG(endpoint, preendpoint));
 
             return sb.ToString();
         }

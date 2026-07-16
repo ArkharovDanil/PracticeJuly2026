@@ -11,9 +11,9 @@ namespace Practice.Classes
     public abstract class AVisualCurve : ICurve, IDrawable
     {
         abstract public void GetPoint(double t, out IPoint p);
-        abstract public void Draw(Graphics g);
+        abstract public void Draw(IImplementor implementor);
 
-        abstract public string ExportToSvg(int width, int height);
+        abstract public string ExportToSvg(IImplementor implementor);
 
     }
 }

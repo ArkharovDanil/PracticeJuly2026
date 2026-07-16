@@ -10,6 +10,6 @@ namespace Practice.interfaces
 {
     internal interface IDrawable
     {
-        void Draw(Graphics g);
+        void Draw(IImplementor implementor);
     }
 }

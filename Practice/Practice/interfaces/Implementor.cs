@@ -12,5 +12,11 @@ namespace Practice.interfaces
         void DrawStartPoint(Graphics g, IPoint start);
         void DrawEndPoint(Graphics g, IPoint end, IPoint preendpoint);
 
+        void DrawLine(Graphics g, IPoint from, IPoint to);
+
+        string DrawStartPointSVG(IPoint start);
+        string DrawEndPointSVG(IPoint end, IPoint preendpoint);
+
+        string DrawLineSVG(IPoint from, IPoint to);
     }
 }
