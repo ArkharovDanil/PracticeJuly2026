@@ -9,5 +9,6 @@ namespace MyWpfApp;
 /// </summary>
 public partial class App : Application
 {
+    
 }
 
