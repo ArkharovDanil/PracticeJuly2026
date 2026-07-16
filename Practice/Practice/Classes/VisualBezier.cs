@@ -12,14 +12,23 @@ namespace Practice.Classes
 {
     internal class VisualBezier : AVisualCurve
     {
+        Graphics _g;
         private Bezier _bez;
-        IImplementor _implementor;
         IPoint endpoint;
+        IPoint preendpoint;
+        int segments = 20;
 
         public VisualBezier(Bezier bez)
         {
             _bez = bez;
-            _implementor = new BlackRealization();
+            
+        }
+
+        public VisualBezier(Bezier bez, Graphics g)
+        {
+            _bez = bez;
+            _g = g;
+            
         }
 
         public override void GetPoint(double t, out IPoint p)
@@ -27,43 +36,44 @@ namespace Practice.Classes
             _bez.GetPoint(t, out p);
         }
 
-        public override void Draw(Graphics g)
+        public override void Draw(IImplementor _imp)
         {
             Pen pen = new Pen(Color.Black, 3);
             pen.DashStyle = DashStyle.Dash;
 
-            int segments = 20;
             _bez.GetPoint(0, out IPoint prevPoint);
-            _implementor.DrawStartPoint(g, prevPoint);
+            _imp.DrawStartPoint(_g, prevPoint);
             for (int i = 1; i <= segments; i++)
             {
                 double t = (double)i / segments;
                 _bez.GetPoint(t, out IPoint currentPoint);
 
-                g.DrawLine(pen, (float)prevPoint.X, (float)prevPoint.Y, (float)currentPoint.X, (float)currentPoint.Y);
+                _imp.DrawLine(_g, prevPoint, currentPoint);
 
                 prevPoint = currentPoint;
+
+                if (i == segments - 1)
+                {
+                    preendpoint = currentPoint;
+                }
+
                 if (i == segments)
                 {
                     endpoint = currentPoint;
                 }
             }
-            _implementor.DrawEndPoint(g, endpoint, endpoint);
+            _imp.DrawEndPoint(_g, endpoint, preendpoint);
         }
 
-        public override string ExportToSvg(int width, int height)
+        public override string ExportToSvg(IImplementor _imp)
         {
             var sb = new System.Text.StringBuilder();
-            sb.AppendLine($"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{width}\" height=\"{height}\">");
 
             _bez.GetPoint(0, out IPoint startPoint);
-
             IPoint prevPoint = startPoint;
-            int segments = 20;
 
 
-            sb.AppendLine(string.Format(System.Globalization.CultureInfo.InvariantCulture, "<rect x=\"{0}\" y=\"{1}\" width=\"10\" height=\"10\" fill=\"black\"/>",
-                startPoint.X, startPoint.Y));
+            sb.AppendLine(_imp.DrawStartPointSVG(startPoint));
 
 
             for (int i = 1; i <= segments; i++)
@@ -71,9 +81,7 @@ namespace Practice.Classes
                 double t = (double)i / segments;
                 _bez.GetPoint(t, out IPoint currentPoint);
 
-                sb.AppendLine(string.Format(System.Globalization.CultureInfo.InvariantCulture,
-                    "<line x1=\"{0}\" y1=\"{1}\" x2=\"{2}\" y2=\"{3}\" stroke=\"black\" stroke-width=\"3\" stroke-dasharray=\"10\"/>",
-                    prevPoint.X, prevPoint.Y, currentPoint.X, currentPoint.Y));
+                sb.AppendLine(_imp.DrawLineSVG(prevPoint, currentPoint));
 
                 prevPoint = currentPoint;
 
@@ -81,16 +89,14 @@ namespace Practice.Classes
                 {
                     endpoint = currentPoint;
                 }
+                if (i == segments - 1)
+                {
+                    preendpoint = currentPoint;
+                }
 
             }
 
-            sb.AppendLine(string.Format(System.Globalization.CultureInfo.InvariantCulture, "<rect x=\"{0}\" y=\"{1}\" width=\"10\" height=\"10\" fill=\"black\"/>",
-                endpoint.X, endpoint.Y));
-
-
-
-            sb.AppendLine("</svg>");
-
+            sb.AppendLine(_imp.DrawEndPointSVG(endpoint, preendpoint));
             return sb.ToString();
         }
     }
