@@ -1,42 +1,42 @@
 ﻿using Practice.Interface1;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.AxHost;
+
 
 namespace Practice.Bridge
 {
     public class BlackRealization : IImplementor
     {
-        public void DrawStartPoint(Graphics g, IPoint startp)
+        Graphics _g;
+        public BlackRealization(Graphics g)
         {
-            using (Pen pen = new Pen(Color.Black, 5))
+            _g = g;
+        }
+        public void DrawStartPoint(/*Graphics g, */IPoint startp)
+        {
+            using (var pen = new Pen(Color.Black, 5))
             {
                 pen.Width = 6;
-                g.DrawRectangle(pen, (float)startp.X, (float)startp.Y, 3, 3);
+                _g.DrawRectangle(pen, (float)startp.X, (float)startp.Y, 3, 3);
             }
         }
 
-        public void DrawLine(Graphics g, IPoint from, IPoint to)
+        public void DrawLine(/*Graphics g,*/ IPoint from, IPoint to)
         {
-            using (Pen pen = new Pen(Color.Black, 2))
+            using (var pen = new Pen(Color.Black, 2))
             {
                 pen.DashStyle = DashStyle.Dash;
-                g.DrawLine(pen, (float)from.X, (float)from.Y, (float)to.X, (float)to.Y);
+                _g.DrawLine(pen, (float)from.X, (float)from.Y, (float)to.X, (float)to.Y);
             }
         }
 
-        public void DrawEndPoint(Graphics g, IPoint endp, IPoint preendp)
+        public void DrawEndPoint(/*Graphics g, */IPoint endp, IPoint preendp)
         {
-            using (Pen pen = new Pen(Color.Black, 5))
+            using (var pen = new Pen(Color.Black, 5))
             {
                 pen.Width = 6;
-                g.DrawRectangle(pen, (float)endp.X, (float)endp.Y, 3, 3);
+                _g.DrawRectangle(pen, (float)endp.X, (float)endp.Y, 3, 3);
             }
         }
 

@@ -1,10 +1,5 @@
 ﻿using Practice.Interface1;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Practice.Classes
 {
@@ -16,8 +11,6 @@ namespace Practice.Classes
 
         }
 
-     
-
         public override double CountX(double t)
         {
             return (1 - t) * GetA().X + t * GetB().X;
@@ -27,9 +20,5 @@ namespace Practice.Classes
         {
             return (1 - t) * GetA().Y + t * GetB().Y;
         }
-
-        //p=(1-t)*a+t*b
-
-
     }
 }

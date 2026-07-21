@@ -1,12 +1,7 @@
-﻿using Practice.Bridge;
-using Practice.Interface1;
-using System;
+﻿using Practice.Interface1;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.AxHost;
+
 
 namespace Practice.Classes
 {
@@ -17,7 +12,6 @@ namespace Practice.Classes
         IPoint endpoint;
         IPoint preendpoint;
         int segments = 20;
-        private List<string> _svg = new List<string>();
 
         public VisualLine(Line line)
         {
@@ -34,18 +28,19 @@ namespace Practice.Classes
         {
             _line.GetPoint(t, out p);
         }
+
         public override void Draw(IImplementor _imp)
         {
             _line.GetPoint(0, out IPoint prevPoint);
 
-            _imp.DrawStartPoint(_g, prevPoint);
+            _imp.DrawStartPoint(/*_g, */prevPoint);
 
             for (int i = 1; i <= segments; i++)
             {
-                double t = (double)i / segments;
+                var t = (double)i / segments;
                 _line.GetPoint(t, out IPoint currentPoint);
 
-                _imp.DrawLine(_g, prevPoint, currentPoint);
+                _imp.DrawLine(/*_g, */prevPoint, currentPoint);
 
                 prevPoint = currentPoint;
 
@@ -61,7 +56,7 @@ namespace Practice.Classes
 
 
             }
-            _imp.DrawEndPoint(_g, endpoint, preendpoint);
+            _imp.DrawEndPoint(/*_g, */endpoint, preendpoint);
 
         }
 
@@ -76,7 +71,7 @@ namespace Practice.Classes
 
             for (int i = 1; i <= segments; i++)
             {
-                double t = (double)i / segments;
+                var t = (double)i / segments;
                 _line.GetPoint(t, out IPoint currentPoint);
 
                 sb.AppendLine(_imp.DrawLineSVG(prevPoint, currentPoint));

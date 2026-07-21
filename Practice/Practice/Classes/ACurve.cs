@@ -1,10 +1,5 @@
 ﻿using Practice.Interface1;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+
 
 namespace Practice.Classes
 {
@@ -25,6 +20,7 @@ namespace Practice.Classes
         {
             return _a;
         }
+
         public IPoint GetB()
         {
             return _b;
@@ -32,13 +28,14 @@ namespace Practice.Classes
 
         public void GetPoint(double t, out IPoint p)
         {
-            Point point = new Point();
+            var point = new Point();
             point.SetX(CountX(t));
             point.SetY(CountY(t));
             p = point;
         }
 
         public abstract double CountX(double t);
+
         public abstract double CountY(double t);
 
     }

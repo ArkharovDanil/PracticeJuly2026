@@ -1,52 +1,45 @@
-﻿using Practice.Classes;
-using Practice.Interface1;
-using System;
-using System.Collections.Generic;
+﻿using Practice.Interface1;
 using System.Drawing;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.AxHost;
+using System.Drawing.Drawing2D;
+using System.Globalization;
 
 namespace Practice.Bridge
 {
     public class GreenRealization : IImplementor
     {
-        Graphics g;
-        private Line _line;
-        IPoint endpoint;
-        private List<string> _svg = new List<string>();
-        int segments = 20;
-
-        public void DrawStartPoint(Graphics g, IPoint startp)
+        Graphics _g;
+        public GreenRealization(Graphics g)
         {
-            using (Pen pen = new Pen(Color.Green, 5))
+            _g = g;
+        }
+
+        public void DrawStartPoint(/*Graphics g, */IPoint startp)
+        {
+            using (var pen = new Pen(Color.Green, 5))
             {
-                g.DrawEllipse(pen, (float)startp.X, (float)startp.Y, 3, 3);
+                _g.DrawEllipse(pen, (float)startp.X, (float)startp.Y, 3, 3);
             }
         }
 
-        public void DrawLine(Graphics g, IPoint from, IPoint to)
+        public void DrawLine(/*Graphics g, */IPoint from, IPoint to)
         {
-            using (Pen pen = new Pen(Color.Green, 3))
+            using (var pen = new Pen(Color.Green, 3))
             {
-                g.DrawLine(pen, (float)from.X, (float)from.Y, (float)to.X, (float)to.Y);
+                _g.DrawLine(pen, (float)from.X, (float)from.Y, (float)to.X, (float)to.Y);
             }
         }
 
-        public void DrawEndPoint(Graphics g, IPoint endp, IPoint preendp)
+        public void DrawEndPoint(/*Graphics g, */IPoint endp, IPoint preendp)
         {
-            using (Pen pen = new Pen(Color.Green, 5))
+            using (var pen = new Pen(Color.Green, 5))
             {
                 pen.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
-                g.DrawLine(pen, (float)preendp.X, (float)preendp.Y, (float)endp.X, (float)endp.Y);
+                _g.DrawLine(pen, (float)preendp.X, (float)preendp.Y, (float)endp.X, (float)endp.Y);
             }
         }
-
         public string DrawStartPointSVG(IPoint startp)
         {
-            return string.Format(System.Globalization.CultureInfo.InvariantCulture, "<circle cx=\"{0}\" cy=\"{1}\" r=\"5\" fill=\"green\" stroke=\"green\" stroke-width=\"3\" />", 
+            return string.Format(System.Globalization.CultureInfo.InvariantCulture, "<circle cx=\"{0}\" cy=\"{1}\" r=\"5\" fill=\"green\" stroke=\"green\" stroke-width=\"3\" />",
                 startp.X, startp.Y);
         }
 

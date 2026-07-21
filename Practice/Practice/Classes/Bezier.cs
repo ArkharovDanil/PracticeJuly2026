@@ -1,9 +1,6 @@
 ﻿using Practice.Interface1;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Practice.Classes
 {
@@ -11,6 +8,7 @@ namespace Practice.Classes
     {
         private IPoint _c;
         private IPoint _d;
+
         public Bezier(IPoint a, IPoint b, IPoint c, IPoint d) : base(a, b)
         {
             _c = c;
@@ -26,6 +24,5 @@ namespace Practice.Classes
         {
             return Math.Pow(1 - t, 3) * GetA().Y + 3 * t * Math.Pow(1 - t, 2) * _c.Y + 3 * Math.Pow(t, 2) * (1 - t) * _d.Y + Math.Pow(t, 3) * GetB().Y;
         }
-        //p=(1−t)3·a+3t(1−t)2·c+3t2(1−t)·d+t3·b
     }
 }

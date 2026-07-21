@@ -22,13 +22,18 @@ namespace Practice
         private Random rnd = new Random();
         private List<Line> _line = new List<Line>();
         private List<Bezier> _bez = new List<Bezier>();
-        private IImplementor _greenimp = new GreenRealization();
-        private IImplementor _blackimp = new BlackRealization();
+        private IImplementor _greenimp;
+        private IImplementor _blackimp;
+
         public Form1()
         {
             InitializeComponent();
             pictureBox1.Paint += DrawGreen;
             pictureBox2.Paint += DrawBlack;
+            Graphics g1 = pictureBox1.CreateGraphics();
+            Graphics g2 = pictureBox2.CreateGraphics();
+            _greenimp = new GreenRealization(g1);
+            _blackimp = new BlackRealization(g2);
         }
 
         private void DrawGreen(object sender, PaintEventArgs e)
@@ -38,13 +43,13 @@ namespace Practice
 
             foreach (var bez in _bez)
             {
-                VisualBezier drawBez = new VisualBezier(bez, e.Graphics);
+                VisualBezier drawBez = new VisualBezier(bez/*, e.Graphics*/);
                 drawBez.Draw(_greenimp);
             }
 
             foreach (var line in _line)
             {
-                VisualLine drawLine = new VisualLine(line, e.Graphics);
+                VisualLine drawLine = new VisualLine(line/*, e.Graphics*/);
                 drawLine.Draw(_greenimp);
             }
             
@@ -107,7 +112,7 @@ namespace Practice
             Classes.Point g = new Classes.Point(rnd.Next(350), rnd.Next(250));
             _bez.Add(new Bezier(c, d, f, g));
 
-
+  
             pictureBox1.Invalidate();
             pictureBox2.Invalidate();
         }

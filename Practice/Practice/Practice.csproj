@@ -47,7 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bridge\BlackRealization.cs" />
+    <Compile Include="Bridge\BlackRealizationSVG.cs" />
     <Compile Include="Bridge\GreenRealization.cs" />
+    <Compile Include="Bridge\GreenRealizationSVG.cs" />
     <Compile Include="Classes\ACurve.cs" />
     <Compile Include="Classes\Bezier.cs" />
     <Compile Include="Classes\AVisualCurve.cs" />

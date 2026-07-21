@@ -1,12 +1,7 @@
-﻿using Practice.Bridge;
-using Practice.Interface1;
-using System;
-using System.Collections.Generic;
+﻿using Practice.Interface1;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Practice.Classes
 {
@@ -38,17 +33,14 @@ namespace Practice.Classes
 
         public override void Draw(IImplementor _imp)
         {
-            Pen pen = new Pen(Color.Black, 3);
-            pen.DashStyle = DashStyle.Dash;
-
             _bez.GetPoint(0, out IPoint prevPoint);
-            _imp.DrawStartPoint(_g, prevPoint);
+            _imp.DrawStartPoint(/*_g, */prevPoint);
             for (int i = 1; i <= segments; i++)
             {
-                double t = (double)i / segments;
+                var t = (double)i / segments;
                 _bez.GetPoint(t, out IPoint currentPoint);
 
-                _imp.DrawLine(_g, prevPoint, currentPoint);
+                _imp.DrawLine(/*_g,*/ prevPoint, currentPoint);
 
                 prevPoint = currentPoint;
 
@@ -62,7 +54,7 @@ namespace Practice.Classes
                     endpoint = currentPoint;
                 }
             }
-            _imp.DrawEndPoint(_g, endpoint, preendpoint);
+            _imp.DrawEndPoint(/*_g, */endpoint, preendpoint);
         }
 
         public override string ExportToSvg(IImplementor _imp)
