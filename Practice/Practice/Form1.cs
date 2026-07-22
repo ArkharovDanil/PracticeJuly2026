@@ -20,34 +20,58 @@ namespace Practice
     {
 
         private Random rnd = new Random();
-        private IImplementor _greenimp;
-        private IImplementor _blackimp;
+        private Options _options1 = null;
+        private Options _options2 = null;
 
         public Form1()
         {
             InitializeComponent();
-            Graphics g1 = pictureBox1.CreateGraphics();
-            Graphics g2 = pictureBox2.CreateGraphics();
-            _greenimp = new GreenRealization(g1);
-            _blackimp = new BlackRealization(g2);
+            _options1 = new Options
+            {
+                FileBuffer = string.Empty,
+                Graphics = pictureBox2.CreateGraphics()
+            };
+            _options2 = new Options
+            {
+                FileBuffer = string.Empty,
+                Graphics = pictureBox1.CreateGraphics()
+            };
+
         }
 
      
         private void button1_Click(object sender, EventArgs e)
         {
-            Classes.Point a = new Classes.Point(rnd.Next(350), rnd.Next(250));
-            Classes.Point b = new Classes.Point(rnd.Next(350), rnd.Next(250));
-            var line = new Line(a, b);
+            var generatedLine = GenerateCurve();
+            AVisualCurve blackRealization = new BlackRealization(generatedLine, _options1);
+            AVisualCurve greenRealization = new GreenRealization(generatedLine, _options2);
+            blackRealization.Draw();
+            greenRealization.Draw();
+        }
+
+        private ICurve GenerateCurve()
+        {
+            var coin = rnd.Next(2) % 2 == 0;
+            if (coin)
+            {
+                Classes.Point a = new Classes.Point(rnd.Next(350), rnd.Next(250));
+                Classes.Point b = new Classes.Point(rnd.Next(350), rnd.Next(250));
+                return new Line(a, b);
+            }
 
             Classes.Point c = new Classes.Point(rnd.Next(350), rnd.Next(250));
             Classes.Point d = new Classes.Point(rnd.Next(350), rnd.Next(250));
             Classes.Point f = new Classes.Point(rnd.Next(350), rnd.Next(250));
             Classes.Point g = new Classes.Point(rnd.Next(350), rnd.Next(250));
-            var bezier = new Bezier(c, d, f, g);
+            return new Bezier(c, d, f, g);
+        }
 
-  
-            pictureBox1.Invalidate();
-            pictureBox2.Invalidate();
+
+
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void button2_Click(object sender, EventArgs e)

@@ -1,4 +1,6 @@
-﻿namespace Practice
+﻿using System;
+
+namespace Practice
 {
     partial class Form1
     {

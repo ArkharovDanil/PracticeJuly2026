@@ -3,6 +3,7 @@ using Practice.Interface1;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Globalization;
+using System.Net;
 using static System.Windows.Forms.AxHost;
 
 namespace Practice.Bridge
@@ -10,43 +11,10 @@ namespace Practice.Bridge
     public class GreenRealization : AVisualCurve
     {
         Graphics _g;
-        ICurve _curve = null;
-        public GreenRealization(Graphics g, ICurve curve)
+
+        public GreenRealization(ICurve curve, Options options) : base(curve)
         {
-            _g = g;
-            _curve = curve;
-        }
-
-        public void DrawStartPoint(/*Graphics g, */IPoint startp)
-        {
-
-        }
-
-        public void DrawLine(/*Graphics g, */IPoint from, IPoint to)
-        {
-
-        }
-
-        public void DrawEndPoint(/*Graphics g, */IPoint endp, IPoint preendp)
-        {
-
-        }
-        public string DrawStartPointSVG(IPoint startp)
-        {
-            return string.Format(System.Globalization.CultureInfo.InvariantCulture, "<circle cx=\"{0}\" cy=\"{1}\" r=\"5\" fill=\"green\" stroke=\"green\" stroke-width=\"3\" />",
-                startp.X, startp.Y);
-        }
-
-        public string DrawLineSVG(IPoint from, IPoint to)
-        {
-            return string.Format(System.Globalization.CultureInfo.InvariantCulture, "<line x1=\"{0}\" y1=\"{1}\" x2=\"{2}\" y2=\"{3}\" stroke=\"green\" stroke-width=\"3\" />",
-            from.X, from.Y, to.X, to.Y);
-        }
-
-        public string DrawEndPointSVG(IPoint endp, IPoint preendp)
-        {
-            return string.Format(System.Globalization.CultureInfo.InvariantCulture, "<line x1=\"{0}\" y1=\"{1}\" x2=\"{2}\" y2=\"{3}\" stroke=\"green\" stroke-width=\"3\" marker-end=\"url(#arrowhead)\"/>",
-            preendp.X, preendp.Y, endp.X, endp.Y);
+            _g = options.Graphics;
         }
 
         public override void DrawLine(IPoint from, IPoint to)
@@ -72,16 +40,6 @@ namespace Practice.Bridge
                 pen.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
                 _g.DrawLine(pen, (float)preendp.X, (float)preendp.Y, (float)endp.X, (float)endp.Y);
             }
-        }
-
-        public override void Draw()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void GetPoint(double t, out IPoint p)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }
