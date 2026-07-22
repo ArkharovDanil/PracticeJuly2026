@@ -55,8 +55,6 @@
     <Compile Include="Classes\AVisualCurve.cs" />
     <Compile Include="Classes\Line.cs" />
     <Compile Include="Classes\Point.cs" />
-    <Compile Include="Classes\VisualBezier.cs" />
-    <Compile Include="Classes\VisualLine.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -65,7 +63,6 @@
     </Compile>
     <Compile Include="Interface1\ICurve.cs" />
     <Compile Include="Interface1\IDrawable.cs" />
-    <Compile Include="Interface1\IImplementor.cs" />
     <Compile Include="Interface1\IPoint.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
