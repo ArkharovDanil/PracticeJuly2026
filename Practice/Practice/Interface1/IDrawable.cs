@@ -2,6 +2,6 @@
 {
     internal interface IDrawable
     {
-        void Draw(IImplementor _imp);
+        void Draw();
     }
 }

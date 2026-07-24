@@ -11,7 +11,7 @@ namespace Practice.Classes
 
         public Point()
         {
-    
+
         }
 
         public Point(double x, double y)

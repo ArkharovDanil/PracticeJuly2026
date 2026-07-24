@@ -5,7 +5,7 @@ namespace Practice.Classes
 {
     public class Line : ACurve
     {
-   
+
         public Line(IPoint a, IPoint b) : base(a, b)
         {
 

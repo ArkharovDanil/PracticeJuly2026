@@ -3,15 +3,7 @@ using Practice.Classes;
 using Practice.Interface1;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
 
 namespace Practice
@@ -20,109 +12,56 @@ namespace Practice
     {
 
         private Random rnd = new Random();
-        private List<Line> _line = new List<Line>();
-        private List<Bezier> _bez = new List<Bezier>();
-        private IImplementor _greenimp;
-        private IImplementor _blackimp;
-
+        private Options _options1 = null;
+        private Options _options2 = null;
+        private List<ICurve> _curves = new List<ICurve>();
         public Form1()
         {
             InitializeComponent();
-            pictureBox1.Paint += DrawGreen;
-            pictureBox2.Paint += DrawBlack;
-            Graphics g1 = pictureBox1.CreateGraphics();
-            Graphics g2 = pictureBox2.CreateGraphics();
-            _greenimp = new GreenRealization(g1);
-            _blackimp = new BlackRealization(g2);
-        }
-
-        private void DrawGreen(object sender, PaintEventArgs e)
-        {
-            if (_line == null) return;
-            if (_bez == null) return;
-
-            foreach (var bez in _bez)
+            _options1 = new Options
             {
-                VisualBezier drawBez = new VisualBezier(bez/*, e.Graphics*/);
-                drawBez.Draw(_greenimp);
-            }
-
-            foreach (var line in _line)
+                Graphics = pictureBox2.CreateGraphics()
+            };
+            _options2 = new Options
             {
-                VisualLine drawLine = new VisualLine(line/*, e.Graphics*/);
-                drawLine.Draw(_greenimp);
-            }
-            
-        }
-
-        private void DrawBlack(object sender, PaintEventArgs e)
-        {
-            if (_line == null) return;
-            if (_bez == null) return;
-
-            foreach (var bez in _bez)
-            {
-                VisualBezier drawBez = new VisualBezier(bez, e.Graphics);
-                drawBez.Draw(_blackimp);
-            }
-
-            foreach (var line in _line)
-            {
-                VisualLine drawLine = new VisualLine(line, e.Graphics);
-                drawLine.Draw(_blackimp);
-            }
+                Graphics = pictureBox1.CreateGraphics()
+            };
 
         }
 
-        private string BuildSVG(IImplementor implementor, int width, int height, bool arrowmarker)
-        {
-            var sb = new System.Text.StringBuilder();
-            sb.AppendLine($"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{width}\" height=\"{height}\">");
-            if (arrowmarker)
-            {
-                sb.AppendLine("<defs>");
-                sb.AppendLine("<marker id=\"arrowhead\" markerWidth=\"5\" markerHeight=\"3.5\" refX=\"4.5\" refY=\"1.75\" orient=\"auto\">");
-                sb.AppendLine("<polygon points=\"0 0, 5 1.75, 0 3.5\" fill=\"green\" />");
-                sb.AppendLine("</marker>");
-                sb.AppendLine("</defs>");
-            }
-            foreach (var line in _line)
-            {
-                VisualLine drawLine = new VisualLine(line);
-                sb.AppendLine(drawLine.ExportToSvg(implementor));
-            }
-            foreach (var bezier in _bez)
-            {
-                VisualBezier drawBezier = new VisualBezier(bezier);
-                sb.AppendLine(drawBezier.ExportToSvg(implementor));
-            }
-            sb.AppendLine("</svg>");
-            return sb.ToString();
-        }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Classes.Point a = new Classes.Point(rnd.Next(350), rnd.Next(250));
-            Classes.Point b = new Classes.Point(rnd.Next(350), rnd.Next(250));
-            _line.Add(new Line(a, b));
+            var generatedLine = GenerateCurve();
+            _curves.Add(generatedLine);
+            AVisualCurve blackRealization = new BlackRealization(generatedLine, _options1);
+            AVisualCurve greenRealization = new GreenRealization(generatedLine, _options2);
+            blackRealization.Draw();
+            greenRealization.Draw();
+        }
+
+        private ICurve GenerateCurve()
+        {
+            var coin = rnd.Next(2) % 2 == 0;
+            if (coin)
+            {
+                Classes.Point a = new Classes.Point(rnd.Next(350), rnd.Next(250));
+                Classes.Point b = new Classes.Point(rnd.Next(350), rnd.Next(250));
+                return new Line(a, b);
+            }
 
             Classes.Point c = new Classes.Point(rnd.Next(350), rnd.Next(250));
             Classes.Point d = new Classes.Point(rnd.Next(350), rnd.Next(250));
             Classes.Point f = new Classes.Point(rnd.Next(350), rnd.Next(250));
             Classes.Point g = new Classes.Point(rnd.Next(350), rnd.Next(250));
-            _bez.Add(new Bezier(c, d, f, g));
-
-  
-            pictureBox1.Invalidate();
-            pictureBox2.Invalidate();
+            return new Bezier(c, d, f, g);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            AVisualCurve greenRealization = new GreenRealizationSVG(/*_options2*/);
 
-            if (_line.Count == 0 && _bez.Count == 0) return;
-
-            string svg = BuildSVG(_greenimp, pictureBox1.Width, pictureBox1.Height, true);
+            string svg = greenRealization.BuildSVG(_curves, pictureBox1.Width, pictureBox1.Height, true);
 
             SaveFileDialog dialog = new SaveFileDialog();
             dialog.Filter = "SVG files (*.svg)|*.svg";
@@ -134,12 +73,11 @@ namespace Practice
             }
 
         }
-
         private void button3_Click(object sender, EventArgs e)
         {
-            if (_line.Count == 0 && _bez.Count == 0) return;
+            AVisualCurve blackRealization = new BlackRealizationSVG(/*_options2*/);
 
-            string svg = BuildSVG(_blackimp, pictureBox2.Width, pictureBox2.Height, false);
+            string svg = blackRealization.BuildSVG(_curves, pictureBox1.Width, pictureBox1.Height, true);
 
             SaveFileDialog dialog = new SaveFileDialog();
             dialog.Filter = "SVG files (*.svg)|*.svg";
@@ -149,7 +87,6 @@ namespace Practice
             {
                 System.IO.File.WriteAllText(dialog.FileName, svg);
             }
-
         }
     }
 }

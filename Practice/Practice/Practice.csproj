@@ -50,13 +50,12 @@
     <Compile Include="Bridge\BlackRealizationSVG.cs" />
     <Compile Include="Bridge\GreenRealization.cs" />
     <Compile Include="Bridge\GreenRealizationSVG.cs" />
+    <Compile Include="Bridge\Options.cs" />
     <Compile Include="Classes\ACurve.cs" />
     <Compile Include="Classes\Bezier.cs" />
     <Compile Include="Classes\AVisualCurve.cs" />
     <Compile Include="Classes\Line.cs" />
     <Compile Include="Classes\Point.cs" />
-    <Compile Include="Classes\VisualBezier.cs" />
-    <Compile Include="Classes\VisualLine.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
