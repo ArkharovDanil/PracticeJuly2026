@@ -1,5 +1,6 @@
 ﻿using Practice.Bridge;
 using Practice.Classes;
+using Practice.Decorator;
 using Practice.interfaces;
 using System;
 using System.Collections.Generic;
@@ -14,30 +15,37 @@ namespace Practice
         private Options _options1 = null;
         private Options _options2 = null;
         private List<ICurve> _curves = new List<ICurve>();
+        private ICurve _lastCurve;
+        private bool _isMove;
+        private DecoratorHelper Helper;
 
         public Form1()
         {
             InitializeComponent();
             _options1 = new Options
             {
-                Graphics = pictureBox2.CreateGraphics()
+                Graphics = pictureBox1.CreateGraphics()
             };
             _options2 = new Options
             {
-                Graphics = pictureBox1.CreateGraphics()
+                Graphics = pictureBox2.CreateGraphics()
             };
-
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var generatedLine = GenerateCurve();
-            _curves.Add(generatedLine);
-            AVisualCurve blackRealization = new BlackRealization(generatedLine, _options1);
-            AVisualCurve greenRealization = new GreenRealization(generatedLine, _options2);
-            AVisualCurve greenRealizationSVG = new GreenRealizationSVG(generatedLine);
-            blackRealization.Draw();
-            greenRealization.Draw();
+            ICurve newCurve = GenerateCurve();
+
+            if (_isMove && _lastCurve != null)
+            {
+                _lastCurve.GetPoint(1, out IPoint previousEnd);
+                newCurve = new MoveTo(newCurve, previousEnd);
+            }
+            _curves.Add(newCurve);
+            Helper = new DecoratorHelper(_curves, _options1, _options2);
+            _lastCurve = newCurve;
+
+            Helper.RedrawBoth(pictureBox1, pictureBox2);
         }
 
         private ICurve GenerateCurve()
@@ -57,6 +65,31 @@ namespace Practice
             return new Bezier(c, d, f, g);
         }
 
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (_lastCurve == null) return;
+
+            _lastCurve = new Fragment(_lastCurve, 1, 0);
+            Helper.ReplaceLastCurve(_lastCurve);
+
+            Helper.RedrawBoth(pictureBox1, pictureBox2);
+        }
+
+        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
+        {
+            Helper.HandleMoveClick(e.Location, _lastCurve, pictureBox1, pictureBox2);
+        }
+
+        private void pictureBox2_MouseClick(object sender, MouseEventArgs e)
+        {
+            Helper.HandleMoveClick(e.Location, _lastCurve, pictureBox1, pictureBox2);
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            _isMove = radioButton1.Checked;
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
             if (_curves.Count == 0) return;
@@ -70,8 +103,8 @@ namespace Practice
             {
                 System.IO.File.WriteAllText(dialog.FileName, svg);
             }
-
         }
+
         private void button3_Click(object sender, EventArgs e)
         {
             if (_curves.Count == 0) return;
