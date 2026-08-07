@@ -5,11 +5,11 @@ namespace Practice.Classes
 {
     public abstract class ACurve : ICurve
     {
-        //приватные поля
+        
         private IPoint _a;
         private IPoint _b;
 
-        //Конструктор и публичные методы
+        
         public ACurve(IPoint a, IPoint b)
         {
             _a = a;
