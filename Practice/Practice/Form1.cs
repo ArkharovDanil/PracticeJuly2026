@@ -1,9 +1,11 @@
 ﻿using Practice.Bridge;
 using Practice.Classes;
+using Practice.Composite;
 using Practice.Decorator;
 using Practice.Interface1;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 
 
@@ -135,6 +137,28 @@ namespace Practice
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
             _isMove = radioButton1.Checked;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            ICurve Curve1 = GenerateCurve();
+            ICurve Curve2 = GenerateCurve();
+            ICurve Curve3 = GenerateCurve();
+
+            CompositeHelp Help = new CompositeHelp();
+            ICurve FinalCurve = Help.Generate(Curve1, Curve2, Curve3);
+
+            if (_isMove && _lastCurve != null)
+            {
+                _lastCurve.GetPoint(1, out IPoint previousEnd);
+                FinalCurve = new MoveTo(FinalCurve, previousEnd);
+            }
+            _curves.Add(FinalCurve);
+
+            Helper = new DecoratorHelper(_curves, _options1, _options2);
+            _lastCurve = FinalCurve;
+            Helper.RedrawBoth(pictureBox1, pictureBox2);
+
         }
     }
 }

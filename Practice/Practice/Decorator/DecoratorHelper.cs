@@ -26,8 +26,8 @@ namespace Practice.Decorator
 
         public void RedrawBoth(PictureBox pictureBox1, PictureBox pictureBox2)
         {
-            _options1.Graphics.Clear(pictureBox2.BackColor);
-            _options2.Graphics.Clear(pictureBox1.BackColor);
+            _options1.Graphics.Clear(pictureBox1.BackColor);
+            _options2.Graphics.Clear(pictureBox2.BackColor);
 
             foreach (var curve in _curves)
             {

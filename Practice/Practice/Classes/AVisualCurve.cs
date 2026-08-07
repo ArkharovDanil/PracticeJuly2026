@@ -35,7 +35,7 @@ namespace Practice.Classes
             for (int i = 1; i <= _segments; i++)
             {
                 var t = (double)i / _segments;
-                _curve.GetPoint(t, out IPoint currentPoint);
+                GetPoint(t, out IPoint currentPoint);
 
                 DrawLine(prevPoint, currentPoint);
 
@@ -45,8 +45,8 @@ namespace Practice.Classes
 
             var t1 = (double)_segments / _segments;
             var t2 = (double)(_segments - 1) / _segments;
-            _curve.GetPoint(t1, out IPoint endpoint);
-            _curve.GetPoint(t2, out IPoint preEndpoint);
+            GetPoint(t1, out IPoint endpoint);
+            GetPoint(t2, out IPoint preEndpoint);
             DrawEndPoint(endpoint, preEndpoint);
         }
 

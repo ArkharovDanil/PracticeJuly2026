@@ -121,6 +121,8 @@
     <Compile Include="Classes\BuilderSVG.cs" />
     <Compile Include="Classes\Line.cs" />
     <Compile Include="Classes\Point.cs" />
+    <Compile Include="Composite\Chain.cs" />
+    <Compile Include="Composite\CompositeHelp.cs" />
     <Compile Include="Decorator\Decorator.cs" />
     <Compile Include="Decorator\DecoratorHelper.cs" />
     <Compile Include="Decorator\Fragment.cs" />
