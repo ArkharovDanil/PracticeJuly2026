@@ -1,9 +1,12 @@
 ﻿using Practice.Bridge;
 using Practice.Classes;
+using Practice.Composite;
 using Practice.Decorator;
 using Practice.interfaces;
 using System;
 using System.Collections.Generic;
+using System.Runtime.ExceptionServices;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 
 namespace Practice
@@ -18,6 +21,7 @@ namespace Practice
         private ICurve _lastCurve;
         private bool _isMove;
         private DecoratorHelper Helper;
+        private CompositeHelper compositeHelper = new CompositeHelper();
 
         public Form1()
         {
@@ -77,12 +81,12 @@ namespace Practice
 
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
-            Helper.HandleMoveClick(e.Location, _lastCurve, pictureBox1, pictureBox2);
+            HandleMoveClick(e.Location);
         }
 
         private void pictureBox2_MouseClick(object sender, MouseEventArgs e)
         {
-            Helper.HandleMoveClick(e.Location, _lastCurve, pictureBox1, pictureBox2);
+            HandleMoveClick(e.Location);
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -119,6 +123,34 @@ namespace Practice
             {
                 System.IO.File.WriteAllText(dialog.FileName, svg);
             }
+        }
+        private void HandleMoveClick(System.Drawing.Point clickLocation)
+        {
+            if (_lastCurve == null) return;
+
+            IPoint target = new Classes.Point(clickLocation.X, clickLocation.Y);
+            _lastCurve = new MoveTo(_lastCurve, target);
+            Helper.ReplaceLastCurve(_lastCurve);
+
+            Helper.RedrawBoth(pictureBox1, pictureBox2);
+        }
+        private void button5_Click_1(object sender, EventArgs e)
+        {
+            ICurve curve1 = GenerateCurve();
+            ICurve curve2 = GenerateCurve();
+            ICurve curve3 = GenerateCurve();
+
+            ICurve FinalChain = compositeHelper.Generate(curve1, curve2, curve3);
+            if (_isMove && _lastCurve != null)
+            {
+                _lastCurve.GetPoint(1, out IPoint previousEnd3);
+                FinalChain = new MoveTo(FinalChain, previousEnd3);
+            }
+            _curves.Add(FinalChain);
+
+            Helper = new DecoratorHelper(_curves, _options1, _options2);
+            _lastCurve = FinalChain;
+            Helper.RedrawBoth(pictureBox1, pictureBox2);
         }
     }
 }
